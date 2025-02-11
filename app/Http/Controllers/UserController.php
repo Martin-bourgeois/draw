@@ -43,7 +43,7 @@ class UserController extends Controller
 
         // Retourner la réponse avec le numéro d'ordre
         return response()->json([
-            'message' => 'Utilisateur enregistré avec succès !',
+            'message' => 'Vous êtes inscrit à la tontine avec succès !',
             'order_number' => $orderNumber,
         ]);
     }
