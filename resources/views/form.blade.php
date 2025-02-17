@@ -117,6 +117,7 @@
             .then(data => {
                 // Afficher une alerte avec la réponse
                 alert(`${data.message}\nVotre numéro d'ordre est : ${data.order_number}`);
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Erreur :', error);
