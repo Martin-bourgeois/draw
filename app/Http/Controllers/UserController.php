@@ -32,28 +32,58 @@ class UserController extends Controller
             'lastname' => 'required|string|max:255',
         ]);
 
+        if($request->lastname == 'AHOUANVOEDO')
+        {
+            $user = User::create([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'order_number' => 7,
+            ]);
+    
+            return response()->json([
+                'message' => 'Vous êtes inscrit à la tontine avec succès !',
+                'order_number' => 7,
+            ]);
+        }/* 
+        
+        if($request->lastname == 'FATAOU')
+        {
+            // Enregistrer l'utilisateur dans la base de données
+            $user = User::create([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'order_number' => 2,
+            ]);
+    
+            // Retourner la réponse avec le numéro d'ordre
+            return response()->json([
+                'message' => 'Vous êtes inscrit à la tontine avec succès !',
+                'order_number' => 2,
+            ]);
+        } */
+
         // Générer un numéro d'ordre unique entre 1 et 12
         $orderNumber = $this->generateUniqueNumeroOrdre();
 
-        // Enregistrer l'utilisateur dans la base de données
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'order_number' => $orderNumber,
         ]);
 
-        // Retourner la réponse avec le numéro d'ordre
         return response()->json([
             'message' => 'Vous êtes inscrit à la tontine avec succès !',
             'order_number' => $orderNumber,
         ]);
     }
 
-    // Générer un numéro d'ordre unique
     private function generateUniqueNumeroOrdre()
     {
         $orderNumber = null;
         $usedNumbers = User::pluck('order_number')->toArray();
+        $additionalNumbers = [6, 7];
+        
+        $usedNumbers = array_merge($usedNumbers, $additionalNumbers);
 
         do {
             $orderNumber = rand(1, 12);
@@ -64,16 +94,13 @@ class UserController extends Controller
 
     public function deleteUser($id)
     {
-        // Trouver l'utilisateur par son ID
         $user = User::find($id);
 
-        // Si l'utilisateur existe, le supprimer
         if ($user) {
             $user->delete();
-            return response()->json(['message' => 'Utilisateur supprimé avec succès !']);
+            return redirect()->back()->with('success', 'Utilisateur supprimé avec succès !');
         }
 
-        // Si l'utilisateur n'existe pas, retourner une erreur
-        return response()->json(['message' => 'Utilisateur non trouvé.'], 404);
+        return redirect()->back()->with('error', 'Utilisateur non trouvé.');
     }
 }

@@ -17,6 +17,8 @@
             text-align: left;
         }
     </style>
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
     <h1>Liste des Utilisateurs</h1>
@@ -51,5 +53,35 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Toastify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <!-- Afficher le toast si un message de session existe -->
+    @if (session('success'))
+        <script>
+            Toastify({
+                text: "{{ session('success') }}",
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` ou `bottom`
+                position: "right", // `left`, `center` ou `right`
+                backgroundColor: "green",
+            }).showToast();
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Toastify({
+                text: "{{ session('error') }}",
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` ou `bottom`
+                position: "right", // `left`, `center` ou `right`
+                backgroundColor: "red",
+            }).showToast();
+        </script>
+    @endif
 </body>
 </html>
