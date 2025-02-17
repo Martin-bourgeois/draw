@@ -7,6 +7,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -20,6 +21,7 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-bottom: 20px;
         }
         label {
             display: block;
@@ -44,6 +46,24 @@
         button:hover {
             background-color: #0056b3;
         }
+        .user-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: left;
+        }
+        .user-list h2 {
+            margin-top: 0;
+        }
+        .user-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .user-list li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +78,25 @@
 
         <button type="submit">Soumettre</button>
     </form>
+
+    <div class="user-list">
+        <h2>Liste des participants</h2>
+        <ul>
+            @for ($i = 1; $i <= 12; $i++)
+                @php
+                    $user = $users->firstWhere('order_number', $i);
+                @endphp
+                <li>
+                    Numéro {{ $i }} :
+                    @if ($user)
+                        {{ $user->firstname }} {{ $user->lastname }}
+                    @else
+                        Disponible
+                    @endif
+                </li>
+            @endfor
+        </ul>
+    </div>
 
     <script>
         document.getElementById('userForm').addEventListener('submit', function (e) {

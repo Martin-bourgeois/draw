@@ -19,7 +19,8 @@ class UserController extends Controller
     // Afficher le formulaire
     public function showForm()
     {
-        return view('form');
+        $users = User::orderBy('order_number', 'asc')->get();
+        return view('form', ['users' => $users]);
     }
 
     // Traiter la soumission du formulaire
