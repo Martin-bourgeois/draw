@@ -23,44 +23,13 @@ class UserController extends Controller
         return view('form', ['users' => $users]);
     }
 
-    // Traiter la soumission du formulaire
     public function store(Request $request)
     {
-        // Valider les données du formulaire
         $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
         ]);
 
-        if($request->lastname == 'AHOUANVOEDO')
-        {
-            $user = User::create([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'order_number' => 7,
-            ]);
-    
-            return response()->json([
-                'message' => 'Vous êtes inscrit à la tontine avec succès !',
-                'order_number' => 7,
-            ]);
-        }
-        
-        if($request->lastname == 'FATAOU')
-        {
-            $user = User::create([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'order_number' => 2,
-            ]);
-    
-            return response()->json([
-                'message' => 'Vous êtes inscrit à la tontine avec succès !',
-                'order_number' => 2,
-            ]);
-        }
-
-        // Générer un numéro d'ordre unique entre 1 et 12
         $orderNumber = $this->generateUniqueNumeroOrdre();
 
         $user = User::create([
@@ -79,9 +48,8 @@ class UserController extends Controller
     {
         $orderNumber = null;
         $usedNumbers = User::pluck('order_number')->toArray();
-        $additionalNumbers = [6, 7, 2];
         
-        $usedNumbers = array_merge($usedNumbers, $additionalNumbers);
+        $usedNumbers = array_merge($usedNumbers);
 
         do {
             $orderNumber = rand(1, 12);
