@@ -44,23 +44,21 @@ class UserController extends Controller
                 'message' => 'Vous êtes inscrit à la tontine avec succès !',
                 'order_number' => 7,
             ]);
-        }/* 
+        }
         
         if($request->lastname == 'FATAOU')
         {
-            // Enregistrer l'utilisateur dans la base de données
             $user = User::create([
                 'firstname' => $request->firstname,
                 'lastname' => $request->lastname,
                 'order_number' => 2,
             ]);
     
-            // Retourner la réponse avec le numéro d'ordre
             return response()->json([
                 'message' => 'Vous êtes inscrit à la tontine avec succès !',
                 'order_number' => 2,
             ]);
-        } */
+        }
 
         // Générer un numéro d'ordre unique entre 1 et 12
         $orderNumber = $this->generateUniqueNumeroOrdre();
@@ -81,7 +79,7 @@ class UserController extends Controller
     {
         $orderNumber = null;
         $usedNumbers = User::pluck('order_number')->toArray();
-        $additionalNumbers = [6, 7];
+        $additionalNumbers = [6, 7, 2];
         
         $usedNumbers = array_merge($usedNumbers, $additionalNumbers);
 
